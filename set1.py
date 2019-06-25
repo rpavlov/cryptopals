@@ -1,6 +1,6 @@
 import base64
 from binascii import unhexlify
-
+import pdb
 '''
 Return the binary data represented by the hexadecimal string hexstr.
 '''
@@ -17,7 +17,7 @@ def solution1():
     given_input = "149276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
     expected_output = b"SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t"
     #TIL: assert is a statement, not a function. Don't run the below with brackets.
-    #TODO: whats th difference lol
+    #TODO: whats the difference between a statement and function in python?
     assert convert64(given_input) == expected_output, 'Incorrect result'
 
 '''
@@ -25,9 +25,14 @@ XOR two equal length buffers
 Q: What is the purpose of xor-ing and why is it important in crypto??
 Q: How does zip() work lol
 '''
-def xor(byte_array1, byte_array2):
-    return bytearray([b1 ^ b2 for (b1, b2) in zip(byte_array1, byte_array2)])
-    #return byte_array1 ^ byte_array2
+def xor(byte_str1, byte_str2):
+    assert(len(byte_str1) == len(byte_str2))
+    try:
+        return bytearray([b1 ^ b2 for (b1, b2)
+                    in zip(byte_str1, byte_str2)])
+    except:
+        pdb.set_trace()
+
 
 def solution2():
     given_input1 = hex_to_byte_array("1c0111001f010100061a024b53535009181c")
@@ -57,11 +62,32 @@ def hr_score(astr):
         char = chr(char)
         if char in letter_freqs:
             score += letter_freqs[char]
-        # else:
-        #     score -= .05
+        else:
+            score -= .05
     return score
-'''
 
 '''
+XOR a byte array with a single character
+'''
 def single_char_xor(buff, char):
-    return xor(buff, bytearray([ord(char)] * len(buff)))
+    return xor(hex_to_byte_array(buff), bytearray([ord(char)] * len(hex_to_byte_array(buff))))
+
+"""
+Returns the best element of a list, sorted by a given key.
+"""
+def best(l, key):
+    return sorted(l, key = key, reverse=True)[0]
+
+
+POSS_KEYS = ''.join([chr(i) for i in range(256)])
+
+"""
+Find the best possible single char xor decoding of a string.
+"""
+def bruteforce_xor_single_char(astr):
+    results = []
+    for poss_key in POSS_KEYS:
+        guess = single_char_xor(astr, poss_key)
+        results.append((hr_score(guess), poss_key, guess))
+
+    return best(results, lambda result: result[0])
