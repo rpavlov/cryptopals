@@ -15,8 +15,10 @@ def convert64(hex_value):
     return base64.b64encode(hex_to_byte_array(hex_value))
 
 def solution1():
-    given_input = "149276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
+    given_input = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
     expected_output = b"SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t"
+
+    print("Result: %s", convert64(given_input))
 
     # Python sidenote 1
     assert convert64(given_input) == expected_output, 'Incorrect result'
@@ -25,7 +27,7 @@ def solution1():
 XOR two equal length buffers
 '''
 def xor(byte_str1, byte_str2):
-    assert(len(byte_str1) == len(byte_str2), 'Byte arrays are of different lengths!')
+    assert len(byte_str1) == len(byte_str2), 'Byte arrays are of different lengths!'
 
     try:
         #Python sidenote 2
@@ -40,6 +42,7 @@ def solution2():
 
     expected_output = hex_to_byte_array("746865206b696420646f6e277420706c6179")
 
+    print('Result: %s', xor(given_input1, given_input2))
     assert xor(given_input1, given_input2) == expected_output, 'Incorrect result'
 
 """
@@ -84,6 +87,7 @@ POSS_KEYS = ''.join([chr(i) for i in range(256)])
 
 """
 Find the best possible single char xor decoding of a string.
+https://en.wikipedia.org/wiki/Frequency_analysis
 """
 def bruteforce_xor_single_char(astr):
     results = []
@@ -92,3 +96,6 @@ def bruteforce_xor_single_char(astr):
         results.append((hr_score(guess), poss_key, guess))
 
     return best(results, lambda result: result[0])
+
+def solution3():
+    print("Print: %s", bruteforce_xor_single_char('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))
