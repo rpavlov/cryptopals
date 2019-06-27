@@ -29,7 +29,7 @@ now your original string is encoded and the second string becomes your key if yo
 
 ### Python sidenotes
 
-#### Statements vs functions
+#### 1: Statements vs functions
 
 In python we have statements and functions, which is a little confusing. Certain things, in this case
 `assert` are functions in other languages. In python assert is a statement! Crazy!
@@ -45,7 +45,7 @@ So `assert(False, "Oh no, something is wrong)` will deceptively not trigger the 
 
 In the switch from python2->python3 this is even more confusing, because `print` went from being an expression to a function. Coming from ruby, `puts 'hey'` and `puts('hey')` behave exactly the same.
 
-#### zip()
+#### 2: zip()
 
 The zip() function in Python 3 returns an iterator. It's typically used to interleave two lists.
 
@@ -72,7 +72,7 @@ print(resultSet)
 {(2, 'two', 'TWO'), (1, 'one', 'ONE')}
 ```
 
-#### bytearray([ord(char)] * len(hex_to_byte_array(buff)))
+#### 3: bytearray([ord(char)] * len(hex_to_byte_array(buff)))
 
 The purpose of this line is to expand a single character to a byte string of the same length as the one we want to xor against.
 

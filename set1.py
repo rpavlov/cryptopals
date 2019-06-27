@@ -1,5 +1,5 @@
-import base64
 from binascii import unhexlify
+import base64
 import pdb
 
 '''
@@ -34,7 +34,6 @@ def xor(byte_str1, byte_str2):
         return bytearray([b1 ^ b2 for (b1, b2) in zip(byte_str1, byte_str2)])
     except:
         pdb.set_trace()
-
 
 def solution2():
     given_input1 = hex_to_byte_array("1c0111001f010100061a024b53535009181c")
@@ -82,20 +81,22 @@ Returns the best element of a list, sorted by a given key.
 def best(l, key):
     return sorted(l, key = key, reverse=True)[0]
 
-
-POSS_KEYS = ''.join([chr(i) for i in range(256)])
-
 """
 Find the best possible single char xor decoding of a string.
 https://en.wikipedia.org/wiki/Frequency_analysis
 """
 def bruteforce_xor_single_char(astr):
+    POSS_KEYS = ''.join([chr(i) for i in range(256)])
+
     results = []
     for poss_key in POSS_KEYS:
         guess = single_char_xor(astr, poss_key)
+
+        print("Guessing... ", (hr_score(guess), poss_key, guess))
+
         results.append((hr_score(guess), poss_key, guess))
 
     return best(results, lambda result: result[0])
 
 def solution3():
-    print("Print: %s", bruteforce_xor_single_char('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))
+    print("Best guess: ", bruteforce_xor_single_char('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))
